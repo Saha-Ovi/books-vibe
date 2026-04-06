@@ -5,13 +5,13 @@ const NavBar = () => {
     const links=
     <>
     <li>
-        <NavLink to={"/"} className={({isActive})=>`font-semibold mr-1 ${isActive? "border border-green-500":" "} `}>Home</NavLink>
+        <NavLink to={"/"} className={({isActive})=>`font-semibold mr-1 ${isActive? "border border-green-500 text-green-500":" "} `}>Home</NavLink>
     </li>
     <li>
-        <NavLink to={"/books"} className={({isActive})=>`font-semibold mr-1 ${isActive?"border border-green-500":" "}`}>Books</NavLink>
+        <NavLink to={"/books"} className={({isActive})=>`font-semibold mr-1 ${isActive?"border border-green-500 text-green-500":" "}`}>Books</NavLink>
     </li>
     <li>
-        <NavLink to={"/page-to-read"} className={({isActive})=>`font-semibold ${isActive?"border border-green-500 ":" "}`}>Pages To read</NavLink>
+        <NavLink to={"/page-to-read"} className={({isActive})=>`font-semibold ${isActive?"border border-green-500 text-green-500 ":" "}`}>Pages to read</NavLink>
     </li>
     
     </>
