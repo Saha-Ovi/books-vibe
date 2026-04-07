@@ -1,15 +1,48 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BookContext } from '../../context/BookContext';
 import { IoLocationOutline } from 'react-icons/io5';
-import { FaUserFriends } from 'react-icons/fa';
+import { FaDatabase, FaUserFriends } from 'react-icons/fa';
 import { MdOutlineContactPage } from 'react-icons/md';
 
-const WishList = () => {
+const WishList = ({sortType}) => {
     const { wishList } = useContext(BookContext);
+    const [filterWishBook,setFilterWishBook]=useState(wishList);
+
+    useEffect(()=>{
+
+        if(sortType)
+        {
+            if(sortType==="Page")
+            {
+                const sortBook=[...wishList].sort((a,b)=>a.totalPages-b.totalPages);
+                setFilterWishBook(sortBook);
+            }
+            else if(sortType=== "Rating")
+            {
+                const sortBook=[...wishList].sort((a,b)=>a.rating-b.rating);
+                setFilterWishBook(sortBook);
+            }
+        }
+
+
+
+    },[sortType,wishList]);
+
+
+
+      if(filterWishBook.length === 0)
+        {
+            return(
+                <div className='text-center py-8 px-6 bg-gray-400 my-8 flex flex-col justify-center items-center'>
+                    <span className='scale-350 mb-8'><FaDatabase /></span>
+                    <h2>There is no data Available</h2>
+                </div>
+            );
+        }
     return (
         <div>
                    {
-                      wishList.map(book => {
+                      filterWishBook.map(book => {
                            return (
                                <div className='container mx-auto my-8 shadow-md'>
                                    <div className="grid grid-cols-2  bg-base-100 shadow-sm h-full">
