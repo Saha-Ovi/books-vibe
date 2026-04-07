@@ -1,12 +1,11 @@
 import React, { use, Suspense } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, ResponsiveContainer } from 'recharts';
+// 1. Added Tooltip to imports
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
-// 1. Initiate the promise outside the component to avoid re-fetching on every render
 const booksPromise = fetch("/booksData.json").then(res => res.json());
 
 const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#00E4FF'];
 
-// Helper for the custom Triangle shape (Calculations only)
 const getPath = (x, y, width, height) => {
   return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3} ${
     x + width / 2
@@ -21,11 +20,8 @@ const TriangleBar = (props) => {
 };
 
 const ChartContent = () => {
-  // 2. Use the hook inside the component
   const books = use(booksPromise);
 
-  // 3. Map your JSON data to match chart keys
-  // Assuming your JSON has: bookName and totalPages
   const chartData = books.map(book => ({
     name: book.bookName, 
     pages: book.totalPages
@@ -46,6 +42,14 @@ const ChartContent = () => {
           textAnchor="end" 
         />
         <YAxis />
+        
+        {/* 2. Added Tooltip Component */}
+        <Tooltip 
+          cursor={{ fill: 'transparent' }} // Removes the gray background box on hover
+          contentStyle={{ borderRadius: '10px', border: 'none', boxShadow: '0px 4px 10px rgba(0,0,0,0.1)' }}
+          itemStyle={{ color: '#8884d8', fontWeight: 'bold' }}
+        />
+
         <Bar 
           dataKey="pages" 
           fill="#8884d8" 
@@ -65,7 +69,6 @@ const PagesToRead = () => {
   return (
     <div className="w-full max-w-5xl mx-auto mt-10 p-5 bg-gray-50 rounded-3xl">
         <h2 className="text-2xl font-bold text-center mb-8">Pages to Read</h2>
-        {/* 4. use() requires a Suspense boundary to show a loading state */}
         <Suspense fallback={<p className="text-center">Loading Chart...</p>}>
             <ChartContent />
         </Suspense>
